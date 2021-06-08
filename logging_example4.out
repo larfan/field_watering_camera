@@ -1,0 +1,29 @@
+INFO:root:This message should go to the log file / Start of run at: 2021-06-08 10:54:01.554013
+ERROR:root:Got exception on main handler!!!!!!!!!!!!!2021-06-08 10:54:07.065424
+Traceback (most recent call last):
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 143, in <module>
+    waterplants(5)
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 91, in waterplants
+    time.sleep(duration)
+KeyboardInterrupt
+ERROR:root:Got exception on main handler!!!!!!!!!!!!!2021-06-08 10:56:32.707760
+Traceback (most recent call last):
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 144, in <module>
+    time.sleep(60)   #15
+KeyboardInterrupt
+ERROR:root:Got exception on main handler!!!!!!!!!!!!!2021-06-08 10:56:34.195215
+Traceback (most recent call last):
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 144, in <module>
+    time.sleep(60)   #15
+KeyboardInterrupt
+ERROR:root:Got exception on main handler!!!!!!!!!!!!!2021-06-08 10:56:35.682389
+Traceback (most recent call last):
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 144, in <module>
+    time.sleep(60)   #15
+KeyboardInterrupt
+ERROR:root:Got exception on main handler!!!!!!!!!!!!!2021-06-08 10:56:52.945308
+Traceback (most recent call last):
+  File "/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/improvingexceptionhandling.py", line 144, in <module>
+    time.sleep(60)   #15
+KeyboardInterrupt
+INFO:root:Amount of allowed exceptions exceeded! Attempted restart at: 2021-06-08 10:56:52.945981

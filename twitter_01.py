@@ -1,0 +1,145 @@
+import tweepy,datetime,time
+#those libraries are only needed temporarily, until this is installed on raspberrypi
+import pygame
+import pygame.camera
+#this init is also only needed temporarily for the reasons outlined above
+pygame.camera.init()
+pygame.camera.list_cameras() #Camera detected or not
+cam = pygame.camera.Camera("/dev/video0",(640,480))
+
+
+#credentials twitter API
+consumer_key='FntFMPFx13PH4OvWVbqbFbqQ4'
+consumer_secret_key='mLtwuKXgOtHBF2WHW5GbYN9kqFg4bzp0jkwBn2rUYhLIYDD23G'
+access_token='1399406374107422721-kLr0L5tZBjoptCs5kRo0sDBAkRE3zj'
+access_token_secret='z7RVF5DvadcWXskhjPIeeqYVO5xQQJJFWcaoQuTe65Rmp'
+
+#authenticating to access the twitter API
+auth=tweepy.OAuthHandler(consumer_key,consumer_secret_key)
+auth.set_access_token(access_token,access_token_secret)
+api=tweepy.API(auth)
+
+#global variables
+stateoftask=[False,False]   #takepicture,waterplants
+lastuseoftask=[None,None]   #logs last use time
+timeintervalltask=[1,3]     #how often task should be allowed to be called, in minutes
+absolutetimes=[['11:56:00','12:15:00','13:00:00'],['12:30:00']]
+cyclenr=0
+lastmodificationtime=[datetime.datetime(1900,1,1),datetime.datetime(1900,1,1)]
+
+def twitter(message, filename):
+    global successfullupload
+    successcounter=0
+    while successcounter < 10:
+        try:
+            current_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            imagetext=str(message)+' '+ current_time
+            if filename is not None:
+                #Generate text tweet with media (image)
+                imagelink='/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/pictures/%s.jpg' %filename
+                
+                api.update_with_media(imagelink,imagetext)
+                print('Twitter function was used!')
+            else: 
+                api.update_status(imagetext)
+                print('Twitter function was used!')
+
+            
+            
+            successfullupload=True
+            break
+        except Exception as e:          #Exception as e instead of only exception, as to also gett traceback/error message
+            successcounter+=1
+            successfullupload=False
+            time.sleep(1)
+            print('Tweeting doesn\'t work nr: '+str(successcounter))
+            #get exception name & message
+            #print(type(e).__name__+': '+str(e))
+
+def takepicture():
+    cam.start()
+    current_time=datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    img = cam.get_image()
+    pygame.image.save(img,'/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/pictures/'+current_time+".jpg")
+    cam.stop()
+    print('Picture has been taken')
+    # log state of the task, and when it was used last time
+    lastuseoftask[0]=datetime.datetime.now()
+    stateoftask[0]=True                 #True in the sense that it has been used
+    #post result on twitter
+    twitter('State of the gARTen at ',current_time)
+
+def waterplants(duration):
+    # log state of the task, and when it was used last time
+    stateoftask[1]=True                 #True in the sense that it has been used
+    lastuseoftask[1]=datetime.datetime.now()    #this has to be placed before the time.sleep, otherwise adding up small delay
+
+    print('Turn water on')
+    time.sleep(duration)
+    print('Turn water off')
+    #post result on twitter
+    watermessage='The vegetable field has been watered for '+ str(duration) + ' seconds ending at '
+    twitter(watermessage,None)
+
+
+def resetprogress(usecase):            #usecase can either be, bytime or bytimeintervall. this function, shall check whether the funciton passed to it, has already been successfuly
+    
+    for index,element in enumerate(stateoftask):                                #executed in the specified time intervall. If it hasn't been, it lifts the block on it and  
+        if element==False:
+            pass               #this ensures that it doesn't run with bs values
+        else:
+            if usecase is 'bytimeintervall':
+                currenttime=datetime.datetime.now()
+                timedelta=currenttime-lastuseoftask[index]
+                totalminutes=timedelta.total_seconds() / 60
+                if totalminutes>=timeintervalltask[index]:
+                    stateoftask[index]=False
+                    
+                print(timedelta.total_seconds() / 60)
+            elif usecase is 'bytime':                   #this 'sub function' checks whether the current time is in a time window of 10 minutes, that is beginning with the times, that are found in the lists of absolutetimes
+                #get current time as datetime object
+                currenttimestring=datetime.datetime.now().strftime("%H:%M:%S") #pretty complicated, but you can't substract datetime.time() objects, therfore I convert a time string to a datetime.datetime object
+                currenttime_asdatetime=datetime.datetime.strptime(currenttimestring,'%H:%M:%S')
+                
+                for ele in absolutetimes[index]:
+                    #get difference between current time and tasktime in minutes
+                    tasktime=datetime.datetime.strptime(ele,'%H:%M:%S') #this needs to be in the for loop as to get different 'eles', as in the different tasktimes if there are more than one
+                    delta=currenttime_asdatetime-tasktime
+                    deltaminutes=delta.total_seconds()/60
+                    #calculate whether following if clause has been entered in the last 10 minutes
+                    minutessincelastuse=(datetime.datetime.now()-lastuseoftask[index]).total_seconds() / 60
+                    print(minutessincelastuse)
+                    if 0<=deltaminutes<=10 and minutessincelastuse>10:
+                        stateoftask[index]=False
+                        
+                    print(deltaminutes)
+                    print('-----')
+                    
+
+
+while True:
+    #header Output
+    print('-----------------New Cycle '+str(cyclenr)+'-----------------')
+
+    if stateoftask[0]==False:
+        takepicture()
+    if stateoftask[1]==False:
+        waterplants(5)
+    time.sleep(60)   #15
+    print('This is statoftask before resetprogress()',stateoftask)
+    #resetprogress('bytimeintervall')
+    resetprogress('bytime')
+    print('This is statoftask after resetprogress()',stateoftask)
+
+    #formating ouput
+    cyclenr+=1
+    
+
+
+
+if successfullupload==True:
+    print('Uploading Image & Message was successfull.')
+else:
+    print('Uploading Image & Message wasn\'t successfull.')
+
+print('Program finished')
