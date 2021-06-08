@@ -1,11 +1,7 @@
-import tweepy,datetime,time, logging
-#those libraries are only needed temporarily, until this is installed on raspberrypi
-import pygame
-import pygame.camera
+import tweepy,datetime,time, logging, picamera
+
 #this init is also only needed temporarily for the reasons outlined above
-pygame.camera.init()
-pygame.camera.list_cameras() #Camera detected or not
-cam = pygame.camera.Camera("/dev/video0",(640,480))
+camera = PiCamera()
 
 #logging settings
 LOG_FILENAME = '/home/pi/Documents/simplewateringsystem/field_watering_camera/logfile4.out'
@@ -42,7 +38,7 @@ def twitter(message, filename):
             imagetext=str(message)+' '+ current_time    
             if filename is not None:
                 #Generate text tweet with media (image)
-                imagelink='/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/pictures/%s.jpg' %filename
+                imagelink='/home/pi/Documents/simplewateringsystem/field_watering_camera/pictures/%s.jpg' %filename
                 
                 api.update_with_media(imagelink,imagetext)
                 print('Twitter function was used!')
@@ -70,11 +66,11 @@ def twitter(message, filename):
             '''
 
 def takepicture():
-    cam.start()
     current_time=datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
-    img = cam.get_image()
-    pygame.image.save(img,'/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/pictures/'+current_time+".jpg")
-    cam.stop()
+    camera.start_preview()
+    time.sleep(3)
+    camera.capture('/home/pi/Documents/simplewateringsystem/field_watering_camera/pictures/'+current_time+".jpg")
+    
     print('Picture has been taken')
     #when it was used last time
     lastuseoftask[0]=datetime.datetime.now()
