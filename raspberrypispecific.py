@@ -23,7 +23,7 @@ api=tweepy.API(auth)
 #global variables
 stateoftask=[False,False]   #takepicture,waterplants
 lastuseoftask=[None,None]   #logs last use time
-timeintervalltask=[1,3]     #how often task should be allowed to be called, in minutes
+timeintervalltask=[10/3,10]     #how often task should be allowed to be called, in minutes
 absolutetimes=[['12:15:00','12:30:00','13:00:00','13:15:00','13:45:00','14:05:00'],['12:15:00','12:50:00','13:50:00']]
 cyclenr=0
 lastmodificationtime=[datetime.datetime(1900,1,1),datetime.datetime(1900,1,1)]
@@ -70,6 +70,7 @@ def takepicture():
     camera.start_preview()
     time.sleep(3)
     camera.capture('/home/pi/Documents/simplewateringsystem/field_watering_camera/pictures/'+current_time+".jpg")
+    camera.stop_preview()
     
     print('Picture has been taken')
     #when it was used last time
@@ -142,8 +143,8 @@ while True:
             waterplants(5)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
-        #resetprogress('bytimeintervall')
-        resetprogress('bytime')
+        resetprogress('bytimeintervall')
+        #resetprogress('bytime')
         print('This is statoftask after resetprogress()',stateoftask)
 
         #formating ouput
