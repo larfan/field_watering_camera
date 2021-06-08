@@ -24,7 +24,7 @@ api=tweepy.API(auth)
 stateoftask=[False,False]   #takepicture,waterplants
 lastuseoftask=[None,None]   #logs last use time
 timeintervalltask=[10/3,10]     #how often task should be allowed to be called, in minutes
-absolutetimes=[['17:45:00','18:00:00','18:20:00','19:10:00','19:50:00','20:30:00'],['17:50:00','18:400:00','19:40:00']]
+absolutetimes=[['21:30:00','21:10:00','18:35:00','19:10:00','19:50:00','20:30:00'],['18:50:00','19:40:00','20:40:00']]
 cyclenr=0
 lastmodificationtime=[datetime.datetime(1900,1,1),datetime.datetime(1900,1,1)]
 exceptioncounter=0
@@ -158,6 +158,7 @@ while True:
             print('THIS IS JUST a TEST')
             continue
         else:           #you should restart raspberry pi here
+            print('Amount of allowed exceptions exceeded! (Hopefully) there is  more information to be found in the log file. Attempted restart at: '+str(datetime.datetime.now()))
             logging.info('Amount of allowed exceptions exceeded! Attempted restart at: '+str(datetime.datetime.now()))
             break
 
