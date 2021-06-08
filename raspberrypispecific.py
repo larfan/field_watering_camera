@@ -1,7 +1,7 @@
 import tweepy,datetime,time, logging, picamera
 
 #this init is also only needed temporarily for the reasons outlined above
-camera = PiCamera()
+camera = picamera.PiCamera()
 
 #logging settings
 LOG_FILENAME = '/home/pi/Documents/simplewateringsystem/field_watering_camera/logfile4.out'
