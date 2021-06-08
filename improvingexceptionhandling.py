@@ -76,7 +76,7 @@ def takepicture():
     pygame.image.save(img,'/home/larfan/Documents/PythonProgramming/SIMPLE-Gardening_System/pictures/'+current_time+".jpg")
     cam.stop()
     print('Picture has been taken')
-    # log state of the task, and when it was used last time
+    #when it was used last time
     lastuseoftask[0]=datetime.datetime.now()
     #mark the task as done, relatively in the end(but before twitter function). so that function can be repeated if an error occured in the functional part
     stateoftask[0]=True                 #True in the sense that it has been used
