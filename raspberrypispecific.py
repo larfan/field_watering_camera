@@ -8,7 +8,7 @@ pygame.camera.list_cameras() #Camera detected or not
 cam = pygame.camera.Camera("/dev/video0",(640,480))
 
 #logging settings
-LOG_FILENAME = '/home/larfan/Documents/simplewateringsystem/field_watering_camera/logfile4.out'
+LOG_FILENAME = '/home/pi/Documents/simplewateringsystem/field_watering_camera/logfile4.out'
 logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
 logging.info('This message should go to the log file / Start of run at: '+str(datetime.datetime.now()))
 
