@@ -143,8 +143,8 @@ while True:
             waterplants(5)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
-        resetprogress('bytimeintervall')
-        #resetprogress('bytime')
+        #resetprogress('bytimeintervall')
+        resetprogress('bytime')
         print('This is statoftask after resetprogress()',stateoftask)
 
         #formating ouput
