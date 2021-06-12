@@ -148,7 +148,7 @@ while True:
         if stateoftask[0]==False:
             takepicture()
         if stateoftask[1]==False:
-            waterplants(10)
+            waterplants(30)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
         #resetprogress('bytimeintervall')
