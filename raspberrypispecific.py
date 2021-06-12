@@ -84,7 +84,7 @@ def takepicture():
     #mark the task as done, relatively in the end(but before twitter function). so that function can be repeated if an error occured in the functional part
     stateoftask[0]=True                 #True in the sense that it has been used
     #post result on twitter
-    #twitter('State of the gARTen at ',current_time)
+    twitter('State of the gARTen at ',current_time)
 
 def waterplants(duration):
     # log when task was executed last time
@@ -100,7 +100,7 @@ def waterplants(duration):
     watermessage='The vegetable field has been watered for '+ str(duration) + ' seconds ending at '
     #mark the task as done, relatively in the end(but before twitter function). so that function can be repeated if an error occured in the functional part
     stateoftask[1]=True                 #True in the sense that it has been used
-    #twitter(watermessage,None)
+    twitter(watermessage,None)
     
     
 
@@ -151,8 +151,8 @@ while True:
             waterplants(30)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
-        #resetprogress('bytimeintervall')
-        resetprogress('bytime')
+        resetprogress('bytimeintervall')
+        #resetprogress('bytime')
         print('This is statoftask after resetprogress()',stateoftask)
 
         #formating ouput
