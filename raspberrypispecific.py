@@ -84,7 +84,7 @@ def takepicture():
     #mark the task as done, relatively in the end(but before twitter function). so that function can be repeated if an error occured in the functional part
     stateoftask[0]=True                 #True in the sense that it has been used
     #post result on twitter
-    twitter('State of the gARTen at ',current_time)
+    #twitter('State of the gARTen at ',current_time)
 
 def waterplants(duration):
     # log when task was executed last time
@@ -100,7 +100,7 @@ def waterplants(duration):
     watermessage='The vegetable field has been watered for '+ str(duration) + ' seconds ending at '
     #mark the task as done, relatively in the end(but before twitter function). so that function can be repeated if an error occured in the functional part
     stateoftask[1]=True                 #True in the sense that it has been used
-    twitter(watermessage,None)
+    #twitter(watermessage,None)
     
     
 
@@ -169,7 +169,7 @@ while True:
             print('Amount of allowed exceptions exceeded! (Hopefully) there is  more information to be found in the log file. Attempted restart at: '+str(datetime.datetime.now()))
             logging.info('Amount of allowed exceptions exceeded! Attempted restart at: '+str(datetime.datetime.now()))
             #clean up gpios
-            GPIO.cleanup()
+            #GPIO.cleanup()
             break
 
         '''
