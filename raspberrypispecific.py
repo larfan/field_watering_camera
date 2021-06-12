@@ -169,6 +169,7 @@ while True:
             print('Amount of allowed exceptions exceeded! (Hopefully) there is  more information to be found in the log file. Attempted restart at: '+str(datetime.datetime.now()))
             logging.info('Amount of allowed exceptions exceeded! Attempted restart at: '+str(datetime.datetime.now()))
             #clean up gpios
+            GPIO.output(RELAIS_1_GPIO, GPIO.LOW) # aus
             GPIO.cleanup()
             break
 
