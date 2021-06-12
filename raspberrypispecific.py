@@ -1,4 +1,10 @@
 import tweepy,datetime,time, logging, picamera
+import RPi.GPIO as GPIO
+
+#gpio pins settings
+GPIO.setmode(GPIO.BCM) # GPIO Nummern statt Board Nummern
+RELAIS_1_GPIO = 17
+GPIO.setup(RELAIS_1_GPIO, GPIO.OUT) # GPIO Modus zuweisen
 
 #this init is also only needed temporarily for the reasons outlined above
 camera = picamera.PiCamera()
@@ -86,7 +92,9 @@ def waterplants(duration):
     lastuseoftask[1]=datetime.datetime.now()    #this has to be placed before the time.sleep, otherwise adding up small delay
 
     print('Turn water on')
+    GPIO.output(RELAIS_1_GPIO, GPIO.HIGH) # an
     time.sleep(duration)
+    GPIO.output(RELAIS_1_GPIO, GPIO.LOW) # aus
     print('Turn water off')
     #post result on twitter
     watermessage='The vegetable field has been watered for '+ str(duration) + ' seconds ending at '
@@ -160,6 +168,8 @@ while True:
         else:           #you should restart raspberry pi here
             print('Amount of allowed exceptions exceeded! (Hopefully) there is  more information to be found in the log file. Attempted restart at: '+str(datetime.datetime.now()))
             logging.info('Amount of allowed exceptions exceeded! Attempted restart at: '+str(datetime.datetime.now()))
+            #clean up gpios
+            GPIO.cleanup()
             break
 
         '''
