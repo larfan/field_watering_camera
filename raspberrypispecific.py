@@ -148,7 +148,7 @@ while True:
         if stateoftask[0]==False:
             takepicture()
         if stateoftask[1]==False:
-            waterplants(5)
+            waterplants(10)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
         #resetprogress('bytimeintervall')
@@ -169,7 +169,7 @@ while True:
             print('Amount of allowed exceptions exceeded! (Hopefully) there is  more information to be found in the log file. Attempted restart at: '+str(datetime.datetime.now()))
             logging.info('Amount of allowed exceptions exceeded! Attempted restart at: '+str(datetime.datetime.now()))
             #clean up gpios
-            #GPIO.cleanup()
+            GPIO.cleanup()
             break
 
         '''
