@@ -65,7 +65,7 @@ def twitter(message, filename):
             print('Tweeting doesn\'t work nr: '+str(successcounter))
             #deliberately not using logging.exception as in main body except block, because tweepy errors tend to be huge 
             #and clutter the logfile
-            logging.info(str(datetime.datetime.now()+': Tweeting doesn\'t work nr: '+str(successcounter))
+            logging.info(str(datetime.datetime.now())+': Tweeting doesn\'t work nr: '+str(successcounter))
             
             #For debugging purposes: However tweepy.errors produce unnaturally long tracebacks, compared to other exceptions
             '''
