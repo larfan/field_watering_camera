@@ -38,7 +38,7 @@ exceptioncounter=0
 def twitter(message, filename):
     global successfullupload
     successcounter=0
-    while successcounter < 1:
+    while successcounter < 10:
         try:
             current_time=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             imagetext=str(message)+' '+ current_time    
