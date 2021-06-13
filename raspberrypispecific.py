@@ -30,7 +30,7 @@ api=tweepy.API(auth)
 stateoftask=[False,False]   #takepicture,waterplants
 lastuseoftask=[None,None]   #logs last use time
 timeintervalltask=[10/3,10]     #how often task should be allowed to be called, in minutes
-absolutetimes=[['23:00:00','02:10:00','04:35:00','07:10:00','10:50:00','12:30:00'],['02:50:00','05:40:00','08:40:00','11:40:00']]
+absolutetimes=[['07:00:00','14:10:00','16:35:00','19:10:00','22:50:00','12:30:00'],['14:50:00','17:40:00','08:40:00','11:40:00']]
 cyclenr=0
 lastmodificationtime=[datetime.datetime(1900,1,1),datetime.datetime(1900,1,1)]
 exceptioncounter=0
@@ -135,7 +135,7 @@ def resetprogress(usecase):            #usecase can either be, bytime or bytimei
                     #calculate whether following if clause has been entered in the last 10 minutes
                     minutessincelastuse=(datetime.datetime.now()-lastuseoftask[index]).total_seconds() / 60
                     print(minutessincelastuse)
-                    if 0<=deltaminutes<=10 and minutessincelastuse>10:
+                    if 0<=deltaminutes<=10 and minutessincelastuse>10:  #it gives it a 10 min time window, beginning at the given 'absolutetime', in which function can be executed
                         stateoftask[index]=False
                         
                     print(deltaminutes)
@@ -154,8 +154,9 @@ while True:
             waterplants(30)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
-        resetprogress('bytimeintervall')
-        #resetprogress('bytime')
+        #depending on which of the following calls resetprogess() function is used, a different type of timeintervalls is used
+        #resetprogress('bytimeintervall')
+        resetprogress('bytime')
         print('This is statoftask after resetprogress()',stateoftask)
 
         #formating ouput
