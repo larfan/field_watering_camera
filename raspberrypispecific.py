@@ -151,12 +151,12 @@ while True:
         if stateoftask[0]==False:
             takepicture()
         if stateoftask[1]==False:
-            waterplants(30)
+            waterplants(5)
         time.sleep(60)   #15
         print('This is statoftask before resetprogress()',stateoftask)
         #depending on which of the following calls resetprogess() function is used, a different type of timeintervalls is used
-        #resetprogress('bytimeintervall')
-        resetprogress('bytime')
+        resetprogress('bytimeintervall')
+        #resetprogress('bytime')
         print('This is statoftask after resetprogress()',stateoftask)
 
         #formating ouput
